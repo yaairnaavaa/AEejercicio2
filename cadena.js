@@ -1,46 +1,40 @@
-function isPalindrome(cadena){//función para verificar si es palindromo.
-    cadenaMod=cadena.toLowerCase().replace(/\s/g,"");//convertimos cadena a minusculas y quitamos espacios en blanco.
-    flippedString=cadenaMod.split("").reverse().toString();//Invertimos la cadena .
-      for (var i = 0; i < ((flippedString.length)-1); i++) {
-        flippedString=flippedString.replace(",","");//Borramos las "," generadas por el metodo reverse. 
-      };
-      if(cadenaMod==flippedString){
+function deleteDiacritics(cadena){//Función para quitar signos diacríticos.
+    return cadena.normalize('NFD').replace(/[\u0300-\u036f]/g,"");
+}
+
+function isPalindrome(cadena){//Función para verificar si una cadena es palíndromo.
+    cadenaMod = deleteDiacritics(cadena);//Quitamos signos diacríticos.
+    cadenaMod=cadenaMod.toLowerCase().replace(/\s|,/g,"");//Convertimos la cadena a minúsculas y quitamos espacios en blanco y comas.
+    flippedString=cadenaMod.split("").reverse();//Separamos la cadena letra por letra e invertimos la matriz generada.
+    flippedString = flippedString.join("");//Usamos método join("") para unir todos los elementos de la matriz en una cadena.
+
+    if(cadenaMod==flippedString){//Comparamos las cadenas para verificar si son iguales.
         result="Si";
-      }
-      else{
+    }
+    else{
         result="No";
-      }
-      return result;
+    }
+    return result;
 }
 
-function numberWords(cadena){
-    cont = 0;
-    for (var i = 0; i < cadena.length; i++) {
-        if(cadena[i] == " "){
-            cont++;
-        }
-    };
-    return cont+1;
+function numberWords(cadena){//Función para contar el número de palabras.
+    var cantidad = cadena.match(/\s/g).length;//Expresión regular para obtener cantidad de espacios en blanco.
+    return cantidad+1;
 }
 
-function numberLetters(cadena){
-    cadenaMod=cadena.toLowerCase().replace(/\s/g,"");
+function numberLetters(cadena){//Funcion para contar el número de letras.
+    cadenaMod=cadena.replace(/\s|,/g,"");////Expresión regular para eliminar espacios en blanco.
     return cadenaMod.length;
 }
 
-function numberVowels(cadena){
-    cont = 0;
-    cadenaMod=cadena.toLowerCase();
-    for (var i = 0; i < cadenaMod.length; i++) {
-        if(cadenaMod[i] == "a" || cadenaMod[i] == "e" || cadenaMod[i] == "i" || cadenaMod[i] == "o" || cadenaMod[i] == "u"){
-            cont++;
-        }
-    };
-    return cont;
+function numberVowels(cadena){//Función para contar el número de vocales.
+    cadenaMod = deleteDiacritics(cadena);//Quitamos signos diacríticos.
+    var cantidad = cadenaMod.match(/[aeiou]/gi).length;//Expresión regular para obtener cantidad de vocales.
+    return cantidad;
 }
 
-function numberConsonants(cadena){
-    cantidad = numberLetters(cadena)-numberVowels(cadena);
+function numberConsonants(cadena){//Función para contar el número de consonantes.
+    cantidad = numberLetters(cadena)-numberVowels(cadena);//Restamos número de vocales a número de letras.
     return cantidad;
 }
 
@@ -49,7 +43,3 @@ module.exports.numW = numberWords;
 module.exports.numL = numberLetters;
 module.exports.numV = numberVowels;
 module.exports.numC = numberConsonants;
-
-
-
-

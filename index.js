@@ -8,6 +8,7 @@ var numberL = cad.numL(cadena);
 var numberV = cad.numV(cadena);
 var numberC = cad.numC(cadena);
 
+console.log("Cadena ingresada: "+cadena);
 console.log("¿Es palíndromo?: "+palindrome);
 console.log("Número de palabras: "+numberW);
 console.log("Número de letras: "+numberL);
